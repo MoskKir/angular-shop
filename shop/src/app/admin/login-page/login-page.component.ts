@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LoginPageComponent implements OnInit {
   form: FormGroup;
   submitted = false;
+  loginSubsc: any;
 
   constructor(
     public auth: AuthService,
@@ -37,7 +38,7 @@ export class LoginPageComponent implements OnInit {
       returnSecureToken: true,
     }
 
-    this.auth
+    this.loginSubsc = this.auth
       .login(user)
       .subscribe(response => {
         console.log(response)
@@ -47,6 +48,10 @@ export class LoginPageComponent implements OnInit {
       }, () => {
         this.submitted = false;
       })
+  }
+
+  ngOnDestroy() {
+    this.loginSubsc.unsubscribe();
   }
 
 }
